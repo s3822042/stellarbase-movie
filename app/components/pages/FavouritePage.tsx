@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { DefaultLayout } from "@/app/components/layouts/DefaultLayout";
 import EmptyPage from "@/app/components/layouts/EmptyPage";
 import MovieCard from "@/app/components/modules/movies/MovieCard";
@@ -7,7 +9,14 @@ import { IMovieDetail } from "@/app/types/Movies";
 import { getFavoriteMovies } from "@/app/utils";
 
 export default function FavouritePage() {
-  const favMovies = getFavoriteMovies();
+  const [favMovies, setFavMovies] = useState<IMovieDetail[] | null>(null);
+
+  useEffect(() => {
+    const movies = getFavoriteMovies();
+    setFavMovies(movies);
+  }, []);
+
+  if (favMovies === null) return <div>Loading...</div>;
 
   return (
     <DefaultLayout>
