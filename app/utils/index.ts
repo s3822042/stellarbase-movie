@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
+import { toast } from "react-toastify";
 
 import { IFetchOptions } from "@/app/types/FetchOptions";
+import { IMovieDetail } from "@/app/types/MovieCard";
 import { IMAGE_BASE_PATH } from "@/app/utils/constants";
 
 export function classNames(...classes: any) {
@@ -44,4 +46,51 @@ export async function fetchData<T>(
   }
 
   return await response.json();
+}
+
+export function addToFavorites(movie: IMovieDetail): void {
+  const favorites: IMovieDetail[] = JSON.parse(
+    localStorage.getItem("favorites") || "[]",
+  );
+
+  if (!favorites.some((favMovie) => favMovie.title === movie.title)) {
+    favorites.push(movie);
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }
+}
+
+export function removeFromFavorites(movie: IMovieDetail): void {
+  const favorites: IMovieDetail[] = JSON.parse(
+    localStorage.getItem("favorites") || "[]",
+  );
+
+  const updatedFavorites = favorites.filter(
+    (favMovie) => favMovie.title !== movie.title,
+  );
+
+  localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+}
+
+export function getFavoriteMovies(): IMovieDetail[] {
+  return JSON.parse(localStorage.getItem("favorites") || "[]");
+}
+
+export type MessageTypes = "error" | "success" | "warning" | "info";
+
+export function showToast(messageType: MessageTypes, message: string) {
+  switch (messageType) {
+    case "success":
+      toast.success(message);
+      break;
+    case "error":
+      toast.error(message);
+      break;
+    case "warning":
+      toast.warning(message);
+      break;
+    case "info":
+      toast.info(message);
+      break;
+  }
 }

@@ -1,6 +1,13 @@
-import ReactMarkdown from "react-markdown";
+import { IMovieDetail } from "@/app/types/MovieCard";
+import { GENRE_COLOR_MAP } from "@/app/utils/constants";
 
-export default function MovieDetailSection(movie: any) {
+type MovieDetailSectionProps = {
+  movie: IMovieDetail;
+};
+
+export default function MovieDetailSection(props: MovieDetailSectionProps) {
+  const { movie } = props;
+
   return (
     <div className="space-y-6 pt-4 lg:col-span-9 lg:pt-0">
       <section aria-labelledby="applicant-information-title">
@@ -13,8 +20,42 @@ export default function MovieDetailSection(movie: any) {
               Movie Details
             </h2>
           </div>
-          <article className="prose max-w-none px-4 py-5 text-base text-gray-900 sm:px-6">
-            {/*<ReactMarkdown>{movie ?? "No detail found."}</ReactMarkdown>*/}
+          <article className="p-4 text-base text-gray-800">
+            <div className="mb-4">
+              <strong className="text-gray-700">Tagline:</strong>{" "}
+              {movie.tagline || "N/A"}
+            </div>
+            <div className="mb-4">
+              <strong className="text-gray-700">Original Language:</strong>{" "}
+              {movie.original_language}
+            </div>
+            <div className="mb-4">
+              <strong className="text-gray-700">Popularity:</strong>{" "}
+              {movie.popularity}
+            </div>
+            <div className="mb-4">
+              <strong className="text-gray-700">Revenue:</strong> $
+              {movie.revenue}
+            </div>
+            <div className="mb-4">
+              <strong className="text-gray-700">Runtime:</strong>{" "}
+              {movie.runtime} minutes
+            </div>
+            <div className="flex space-x-2">
+              {movie.genres!.map((genre) => (
+                <div
+                  key={genre.name}
+                  className="rounded-full"
+                  style={{
+                    backgroundColor: GENRE_COLOR_MAP[genre.name] || "#cccccc",
+                  }}
+                >
+                  <div className="px-4 py-2 text-sm font-black text-white">
+                    {genre.name}
+                  </div>
+                </div>
+              ))}
+            </div>
           </article>
         </div>
       </section>

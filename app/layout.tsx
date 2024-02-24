@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import "./globals.css";
+import ToastProvider from "@/app/components/elements/ToastProvider";
 import Providers from "@/app/providers";
 import { SITE_NAME } from "@/app/utils/constants";
 
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>{children}</Providers>
+        <ToastProvider />
       </body>
     </html>
   );

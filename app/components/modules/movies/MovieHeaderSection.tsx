@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  IconCalendar,
-  IconStar,
-  IconMessage,
-} from "@tabler/icons-react";
+import { IconCalendar, IconStar, IconMessage } from "@tabler/icons-react";
 import Image from "next/image";
 
 import { IMovieDetail } from "@/app/types/MovieCard";
-import { buildImagePath, convertDateFormat } from "@/app/utils";
+import {
+  addToFavorites,
+  buildImagePath,
+  convertDateFormat,
+  getFavoriteMovies,
+  removeFromFavorites,
+  showToast,
+} from "@/app/utils";
 
 type MovieHeaderSectionProps = {
   movie: IMovieDetail;
@@ -18,7 +21,23 @@ export default function MovieHeaderSection(props: MovieHeaderSectionProps) {
   const { movie } = props;
   const [isFavourite, setIsFavourite] = useState(false);
 
+  useEffect(() => {
+    const favorites = getFavoriteMovies();
+    const isMovieInFavorites = favorites.some(
+      (favMovie) => favMovie.title === movie.title,
+    );
+    setIsFavourite(isMovieInFavorites);
+  }, [movie.title]);
+
   const handleClickFavourite = () => {
+    if (isFavourite) {
+      showToast("error", "Removed from favourites");
+      removeFromFavorites(movie);
+    } else {
+      showToast("success", "Added to favourites");
+      addToFavorites(movie);
+    }
+
     setIsFavourite(!isFavourite);
   };
 
@@ -30,12 +49,14 @@ export default function MovieHeaderSection(props: MovieHeaderSectionProps) {
         <div className="pt-4 lg:grid lg:grid-cols-12 lg:gap-x-5">
           <div className="relative lg:col-span-7">
             <Image
-              className="size-full max-h-96 rounded-md object-cover shadow-md"
+              loading="lazy"
+              className="max-h-96 rounded-md shadow-md"
               src={imageUrl || "/image-not-found.jpeg"}
               alt={movie.title}
-              layout="responsive"
-              width={300}
-              height={200}
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "auto" }}
             />
           </div>
           <div className="space-y-4 px-0 lg:col-span-5">

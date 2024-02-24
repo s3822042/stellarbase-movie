@@ -15,12 +15,14 @@ export default function MovieCard(props: IMovieDetail) {
       <Link href={`/movie/${id}`}>
         <div className="relative shrink-0">
           <Image
+            loading="lazy"
             className="h-56 w-full object-cover"
             src={imageUrl || "/image-not-found.jpeg"}
             alt={title}
-            width={300}
-            height={200}
-            layout="responsive"
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: "100%", height: "auto" }}
           />
           <div className="absolute inset-0 mt-20 bg-gradient-to-b from-transparent to-gray-900 group-hover:to-gray-800"></div>
           <div className="absolute inset-x-0 bottom-0 flex-1 px-4 pb-4">
@@ -34,9 +36,10 @@ export default function MovieCard(props: IMovieDetail) {
             iconsCount={10}
             size={20}
             allowFraction={true}
+            SVGclassName={`inline-block`}
             readonly
           />
-          <div className="flex space-x-1 text-sm text-gray-300">
+          <div className="mt-2 flex space-x-1 text-sm text-gray-300">
             {convertDateFormat(release_date)}
           </div>
         </div>

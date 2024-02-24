@@ -33,7 +33,7 @@ export default function SearchResultsSection({
 
   const [movies, setMovies] = useState(Array());
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [
       "get-movie-list",
       searchContext.orderBy,
@@ -49,6 +49,8 @@ export default function SearchResultsSection({
       setMoviesCount(data.results.length);
     }
   }, [data]);
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="space-y-6 px-4 sm:px-6 lg:col-span-10 lg:px-0">
