@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import MovieCard from "@/app/components/modules/movies/MovieCard";
 import Pagination from "@/app/components/modules/search/Pagination";
 import { SearchSectionContext } from "@/app/contexts/SearchContext";
-import { IMovieDetail } from "@/app/types/MovieCard";
+import { IMovieDetail } from "@/app/types/Movies";
 import { SORT_BY_OPTIONS } from "@/app/utils/constants";
 import { getMovieList } from "@/app/utils/queries/movies";
 

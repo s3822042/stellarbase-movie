@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { IconCalendar, IconStar, IconMessage } from "@tabler/icons-react";
 import Image from "next/image";
 
-import { IMovieDetail } from "@/app/types/MovieCard";
+import { IMovieDetail } from "@/app/types/Movies";
 import {
   addToFavorites,
   buildImagePath,
+  classNames,
   convertDateFormat,
   getFavoriteMovies,
   removeFromFavorites,
@@ -60,7 +61,7 @@ export default function MovieHeaderSection(props: MovieHeaderSectionProps) {
             />
           </div>
           <div className="space-y-4 px-0 lg:col-span-5">
-            <h2 className="tracking-7 mt-4 text-4xl font-extrabold text-white sm:text-3xl lg:mt-0">
+            <h2 className="mt-4 text-4xl font-extrabold text-white sm:text-3xl lg:mt-0">
               {movie.title}
             </h2>
 
@@ -92,10 +93,16 @@ export default function MovieHeaderSection(props: MovieHeaderSectionProps) {
               <p className="text-white">{movie.overview}</p>
             </div>
             <div
-              className={`flex space-x-4 ${isFavourite ? "text-red-600" : "text-green-600"}`}
+              className={classNames(
+                isFavourite ? "text-red-600" : "text-green-600",
+                "flex space-x-4",
+              )}
             >
               <div
-                className={`rounded-full ${isFavourite ? "bg-red-600" : "bg-green-600"}`}
+                className={classNames(
+                  isFavourite ? "bg-red-600" : "bg-green-600",
+                  "rounded-full",
+                )}
                 onClick={handleClickFavourite}
                 role="button"
               >

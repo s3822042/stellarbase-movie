@@ -1,9 +1,15 @@
+import { ClassValue, clsx } from "clsx";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
+import { twMerge } from "tailwind-merge";
 
 import { IFetchOptions } from "@/app/types/FetchOptions";
-import { IMovieDetail } from "@/app/types/MovieCard";
+import { IMovieDetail } from "@/app/types/Movies";
 import { IMAGE_BASE_PATH } from "@/app/utils/constants";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -14,7 +20,7 @@ export function buildImagePath(posterPath: string | null): string | null {
 }
 
 export function convertDateFormat(inputDate: string): string {
-  const parsedDate = dayjs(inputDate, { format: "YYYY-DD-MM" });
+  const parsedDate = dayjs(inputDate);
 
   return parsedDate.format("DD-MM-YYYY");
 }

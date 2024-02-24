@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Rating } from "react-simple-star-rating";
 
-import { IMovieDetail } from "@/app/types/MovieCard";
+import { IMovieDetail } from "@/app/types/Movies";
 import { buildImagePath, convertDateFormat } from "@/app/utils";
 
 export default function MovieCard(props: IMovieDetail) {
@@ -16,13 +16,13 @@ export default function MovieCard(props: IMovieDetail) {
         <div className="relative shrink-0">
           <Image
             loading="lazy"
-            className="h-56 w-full object-cover"
+            className="h-56 w-full object-cover object-left-top"
             src={imageUrl || "/image-not-found.jpeg"}
             alt={title}
             width={0}
             height={0}
             sizes="100vw"
-            style={{ width: "100%", height: "auto" }}
+            style={{ width: "100%", height: "30vh" }}
           />
           <div className="absolute inset-0 mt-20 bg-gradient-to-b from-transparent to-gray-900 group-hover:to-gray-800"></div>
           <div className="absolute inset-x-0 bottom-0 flex-1 px-4 pb-4">

@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -7,13 +9,25 @@ import { useParams } from "next/navigation";
 import { DefaultLayout } from "@/app/components/layouts/DefaultLayout";
 import MovieDetailSection from "@/app/components/modules/movies/MovieDetailSection";
 import MovieHeaderSection from "@/app/components/modules/movies/MovieHeaderSection";
-import { getMovieDetail } from "@/app/utils/queries/movies";
+import MovieReviewSection from "@/app/components/modules/movies/MovieReviewSection";
+import MovieSidebar from "@/app/components/modules/movies/MovieSidebar";
+import MovieSimilarSection from "@/app/components/modules/movies/MovieSimilarSection";
+import { MovieDetailSectionContext } from "@/app/contexts/MovieDetailSectionContext";
+import { getMovieDetail, getMovieReviews } from "@/app/utils/queries/movies";
 
 export default function MovieDetailPage() {
   const movie_id = useParams().id;
+  const [currentSection, setCurrentSection] = useState("details");
+
   const { data: movieDetailData, isLoading } = useQuery({
     queryKey: ["get-movie-detail", movie_id],
     queryFn: () => getMovieDetail(movie_id),
+    enabled: Boolean(movie_id),
+  });
+
+  const { data: movieReviewsData } = useQuery({
+    queryKey: ["get-movie-reviews", movie_id],
+    queryFn: () => getMovieReviews(movie_id),
     enabled: Boolean(movie_id),
   });
 
@@ -24,9 +38,25 @@ export default function MovieDetailPage() {
       {movieDetailData ? (
         <>
           <MovieHeaderSection movie={movieDetailData} />
-          <div className="mx-auto grid max-w-7xl p-8 lg:grid-cols-12 lg:gap-x-5">
-            <MovieDetailSection movie={movieDetailData} />
-          </div>
+
+          <MovieDetailSectionContext.Provider
+            value={{ currentSection, setCurrentSection }}
+          >
+            <>
+              <div className="mx-auto grid max-w-7xl p-8 lg:grid-cols-12 lg:gap-x-5">
+                {currentSection == "details" && (
+                  <MovieDetailSection movie={movieDetailData} />
+                )}
+                {currentSection == "reviews" && (
+                  <MovieReviewSection
+                    reviews={movieReviewsData?.results || []}
+                  />
+                )}
+                <MovieSidebar />
+              </div>
+              <MovieSimilarSection movie_id={movie_id} />
+            </>
+          </MovieDetailSectionContext.Provider>
         </>
       ) : (
         <div className="mx-auto max-w-max py-56">

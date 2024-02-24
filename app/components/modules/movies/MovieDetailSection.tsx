@@ -1,4 +1,4 @@
-import { IMovieDetail } from "@/app/types/MovieCard";
+import { IMovieDetail } from "@/app/types/Movies";
 import { GENRE_COLOR_MAP } from "@/app/utils/constants";
 
 type MovieDetailSectionProps = {

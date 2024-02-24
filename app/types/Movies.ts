@@ -1,3 +1,8 @@
+export interface IMovieListResponse {
+  page: number;
+  results: IMovieDetail[];
+}
+
 export interface IMovieDetail {
   adult?: boolean;
   backdrop_path?: string | null;
