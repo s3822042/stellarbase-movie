@@ -31,40 +31,48 @@ export default function MovieSimilarSection({
         You may want to watch
       </h1>
       <div className="mt-8">
-        <Carousel
-          className="w-full"
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          plugins={[
-            Autoplay({
-              delay: 2000,
-            }),
-          ]}
-        >
-          <CarouselContent className="-ml-2 md:-ml-4">
-            {movies?.results.map((movie: IMovieDetail, index) => (
-              <CarouselItem
-                key={index}
-                className="pl-2 md:basis-1/2 md:pl-4 lg:basis-1/3"
-              >
-                <div className="p-1">
-                  <MovieCard
-                    key={movie.id}
-                    id={movie.id}
-                    title={movie.title}
-                    poster_path={movie.poster_path}
-                    release_date={movie.release_date}
-                    vote_average={movie.vote_average}
-                  />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+        {movies?.results && movies.results.length > 0 ? (
+          <Carousel
+            className="w-full"
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            plugins={[
+              Autoplay({
+                delay: 2000,
+              }),
+            ]}
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {movies.results.map((movie: IMovieDetail, index) => (
+                <CarouselItem
+                  key={index}
+                  className="pl-2 md:basis-1/2 md:pl-4 lg:basis-1/3"
+                >
+                  <div className="p-1">
+                    <MovieCard
+                      key={movie.id}
+                      id={movie.id}
+                      title={movie.title}
+                      poster_path={movie.poster_path}
+                      release_date={movie.release_date}
+                      vote_average={movie.vote_average}
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="hidden sm:block">
+              <CarouselPrevious />
+            </div>
+            <div className="hidden sm:block">
+              <CarouselNext />
+            </div>
+          </Carousel>
+        ) : (
+          <p className="text-gray-500">No similar movies found.</p>
+        )}
       </div>
     </div>
   );
